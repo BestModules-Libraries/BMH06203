@@ -1,0 +1,29 @@
+#######################################
+# Syntax Coloring Map For (BMH06203)
+#######################################
+###################################
+#Classes and Objects(KEYWORD1)
+###################################
+BMH06203	KEYWORD1	
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin	KEYWORD2
+readTemperature	KEYWORD2
+sleep	KEYWORD2
+writeEEPROM	KEYWORD2
+readEEPROM	KEYWORD2
+setPWMParam	KEYWORD2
+setIOParam	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+I2C_MODE	LITERAL1
+PWM_MODE	LITERAL1
+IO_MODE1	LITERAL1
+IO_MODE2	LITERAL1
+AMB_TEMP	LITERAL1
+OBJ_TEMP	LITERAL1
+BODY_TEMP	LITERAL1
