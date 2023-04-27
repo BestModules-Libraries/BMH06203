@@ -7,7 +7,7 @@ BMH06203
 
 The Best Modules BMH06203 is an IR thermometry module, which uses the I2C communication method. This document provides the description of the BMH06203 Arduino Lib functions and how to install the Arduino Lib. The example demonstrates the function of obtaining the object surface temperature value.
 
-This library can be installed via the Arduino Library manager. Search for **BMH06203 **. 
+This library can be installed via the Arduino Library manager. Search for **BMH06203**. 
 
 Repository Contents
 -------------------
