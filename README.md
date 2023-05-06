@@ -13,7 +13,7 @@ The Best Modules BMH06203 is an IR thermometry module, which uses the I2C commun
 |Part No.   |Description                   |
 |:---------:|:----------------------------:|
 |BMH06203   |IR thermometry module|
-|BMH63K203  |IR thermometry module,contains an Connection Line and BMH06203-41 module|
+|BMH63K203  |IR thermometry module,contains an adapter cable and the BMH06203-41 module|
 
 </div> 
 
