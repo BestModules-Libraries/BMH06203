@@ -1,10 +1,8 @@
 /*************************************************
-File:       		BMH06203.h
-Author:             BESTMODULE
-Description:        Define classes and required variables
-History：			
-V1.0.1	 -- initial version；2023-02-09；Arduino IDE :v1.8.13
-
+File:       BMH06203.h
+Author:     BEST MODULES CORP.
+Description:Define classes and required variables
+History：		V1.0.2	 -- 2024-08-20
 **************************************************/
 #ifndef _BMH06203_H__
 #define _BMH06203_H__
@@ -36,8 +34,8 @@ public:
     void writeEEPROM(uint8_t addr, uint16_t data);
     uint16_t readEEPROM(uint8_t addr);
     void setMode(uint8_t Mode);
-    void setPWMParam(uint8_t min,uint8_t max);
-    void setIOParam(uint8_t threshold);
+    void setPWMParam(float min,float max);
+    void setIOParam(float threshold);
       
 private:
     void writeBytes(uint8_t wbuf[], uint8_t wlen);

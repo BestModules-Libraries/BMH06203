@@ -1,15 +1,14 @@
 /*****************************************************************
-File:             BMH06203.cpp
-Author:           BESTMODULES
-Description:      I2C communication with the BMH06203 and obtain the corresponding value 
-History：         
-V1.0.1   -- initial version；2023-02-09；Arduino IDE : v1.8.13
+File:         BMH06203.cpp
+Author:       BEST MODULES CORP.
+Description:  I2C communication with the BMH06203 and obtain the corresponding value 
+History：      V1.0.2  -- 2024-08-20
 ******************************************************************/
 #include "BMH06203.h"
 
 /*************************************************
-Description:  Constructor
-Parameters:        *theWire: Wire object if your board has more than one I2C interface            
+Description:Constructor
+Parameters: *theWire: Wire object if your board has more than one I2C interface            
 Return:             
 Others:             
 *************************************************/
@@ -20,7 +19,7 @@ BMH06203::BMH06203(TwoWire *theWire)
 /*************************************************
 Description:  Module Initial
 Parameters:   i2c_addr：Module IIC address       
-Return:            
+Return:       void         
 Others:            
 *************************************************/
 void BMH06203::begin(uint8_t  i2c_addr)
@@ -35,11 +34,13 @@ void BMH06203::begin(uint8_t  i2c_addr)
 
 /*************************************************
 Description:  Get temperature data
-Parameters:        TYPE @see BMH63M002.h TEMP_TYPE_:
-Return:       Temperature data
+Parameters:   TYPE:
+                0x08(AMB_TEMP):ambient temperature 
+                0x09(OBJ_TEMP):Surface temperature of object 
+                0x0a(BODY_TEMP):Human body temperature 
+Return:       Temperature data,unit ℃
 Others:
 *************************************************/
-
 float BMH06203::readTemperature(uint8_t TYPE)
 {
 
@@ -59,7 +60,7 @@ float BMH06203::readTemperature(uint8_t TYPE)
 /*************************************************
 Description:  Enter halt mode
 Parameters:
-Return:
+Return:       void
 Others:
 *************************************************/
 void BMH06203::sleep()
@@ -70,11 +71,11 @@ void BMH06203::sleep()
 }
 /*************************************************
 Description:  Write EEPROM
-Parameters:        addr:EEPROM address,write value  set 08H @see BMH06203.h MODE_:
-                   data:Data written into EEPROM
-Return:
-Others:         When continuously writing data to the EEPROM,
-                the interval for each stroke must be 10ms
+Parameters:   addr:EEPROM address,write value  set 08H @see BMH06203.h MODE_:
+              data:Data written into EEPROM
+Return:       void
+Others:       When continuously writing data to the EEPROM,
+              the interval for each stroke must be 10ms
 *************************************************/
 void BMH06203::writeEEPROM(uint8_t addr, uint16_t data)
 {
@@ -85,7 +86,7 @@ void BMH06203::writeEEPROM(uint8_t addr, uint16_t data)
 }
 /*************************************************
 Description:  Read EEPROM value
-Parameters:        addr:EEPROM addres
+Parameters:   addr:EEPROM addres
 Return:       EEPROM address value
 Others:       Read data immediately after writing data to the EEPROM at an interval of 10ms
 *************************************************/
@@ -108,57 +109,75 @@ uint16_t BMH06203::readEEPROM(uint8_t addr)
         return 0;
     }
 }
-
 /*************************************************
 Description:  Set the output mode
-Parameters:   SCLpin：enter low to the SCL pin to switch modes
-              Mode:
+Parameters:   Mode:
                 IIC_MODE = 0x00,
                 PWM_MODE = 0x01,
                 IO_MODE1 = 0x02,
                 IO_MODE2 = 0x06,      
-Return:            
+Return:       void          
 Others:            
 *************************************************/
 void BMH06203::setMode(uint8_t Mode)
 {
-    pinMode(2,INPUT);//D2 used to input 50ms low level to SCL pin
-    digitalWrite(2,LOW);
-    delay(50);//Wait 50ms and then power cycle up
+    if(_wire == &Wire)
+    {
+      pinMode(19,OUTPUT); 
+      digitalWrite(19,LOW);
+      delay(70);//Wait 50ms and then power cycle up
+      digitalWrite(19,HIGH); 
+    }
+    #if defined(ARDUINO_HT32_USB)
+    if(_wire == &Wire1) 
+    {
+      pinMode(21,OUTPUT); 
+      digitalWrite(21,LOW); 
+      delay(70);//Wait 50ms and then power cycle up
+      digitalWrite(21,HIGH); 
+    }
+    if(_wire == &Wire2)
+    {
+      pinMode(24,OUTPUT); 
+      digitalWrite(24,LOW); 
+      delay(70);//Wait 50ms and then power cycle up
+      digitalWrite(24,HIGH); 
+    }
+    #endif
+    begin();
     writeEEPROM(0x08,Mode);
 }
-
 /*************************************************
-Description:  
-Parameters:     min:  Set the minimum temperature 
-                max:  Set the maximum temperatur
-Return:       
+Description:  Set PWM mode, temperature range  
+Parameters:   min:  Set the minimum temperature 
+              max:  Set the maximum temperatur
+Return:       void      
 Others:       
 *************************************************/
-void BMH06203::setPWMParam(uint8_t min,uint8_t max)
+void BMH06203::setPWMParam(float min,float max)
 {
-  uint8_t _min = min *10;
-  uint8_t _max = max *10;
-  writeEEPROM(0x2A,_min); 
-  writeEEPROM(0x2B,_max); 
+  uint16_t _min = min *10;
+  uint16_t _max = max *10;
+  writeEEPROM(0x0A,_min); 
+  writeEEPROM(0x0B,_max); 
 }
 /*************************************************
-Description:  
+Description:Set IO mode, temperature trigger threshold  
 Parameters: threshold: Set the temperature threshold      
-Return:       
+Return:     void     
 Others:       
 *************************************************/
-void BMH06203::setIOParam(uint8_t threshold)
+void BMH06203::setIOParam(float threshold)
 {
-  uint8_t _threshold = threshold * 10;
-  writeEEPROM(0x2C,_threshold); 
+  uint16_t _threshold = threshold * 10;
+  writeEEPROM(0x0C,_threshold); 
 }
 /**********************************************************
-Description: Write data through uart
+Description: Write data
 Parameters: wbuf:The array for storing Data to be sent
             wlen:Length of data sent
-Return: None
-Others: None
+Return:     void
+Others: 
 **********************************************************/
 void BMH06203::writeBytes(uint8_t wbuf[], uint8_t wlen)
 {
@@ -175,13 +194,13 @@ void BMH06203::writeBytes(uint8_t wbuf[], uint8_t wlen)
     delay(10);
 }
 /**********************************************************
-Description: Read data through UART
+Description: Read data
 Parameters: rbuf: Used to store received data
             rlen: Length of data to be read
 Return:     0:OK
             1:CHECK_ERROR
             2: timeout error
-Others: None
+Others: 
 **********************************************************/
 uint8_t BMH06203::readBytes(uint8_t rbuf[], uint8_t rlen)
 {
