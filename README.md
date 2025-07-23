@@ -1,11 +1,11 @@
 <div align=center>
-<img src="https://github.com/BestModules-Libraries/img/blob/main/BMH63K203_V1.0.png" width="480" height="240"> 
+<img src="https://github.com/BestModules-Libraries/img/blob/main/BMH63K203_V1.0.png" width="562" height="480"> 
 </div> 
 
 BMH06203 
 ===========================================================
 
-The Best Modules BMH06203 is an IR thermometry module, which uses the I2C communication method. This document provides the description of the BMH06203 Arduino Lib functions and how to install the Arduino Lib. The example demonstrates the function of obtaining the object surface temperature value.
+The Best Modules BMH06203/BMH06206 is an IR thermometry module, which uses the I2C communication method. This document provides the description of the BMH06203/BMH06206 Arduino Lib functions and how to install the Arduino Lib. The example demonstrates the function of obtaining the object surface temperature value.
 
 #### Applicable types:
 <div align=center>
@@ -13,8 +13,9 @@ The Best Modules BMH06203 is an IR thermometry module, which uses the I2C commun
 |Part No.   |Description                   |
 |:---------:|:----------------------------:|
 |BMH06203   |IR thermometry module|
-|BMH63K203  |IR thermometry module,contains an adapter cable and the BMH06203-41 module|
-
+|BMH06206   |IR thermometry module|
+|BMH63K203  |IR thermometry module,contains an adapter cable and the BMH06203-41/BMH06206-41 module|
+|BMH63K203A  |IR thermometry module,contains an adapter cable and the BMH06203-41/BMH06206-41 module|
 </div> 
 
 This library can be installed via the Arduino Library manager. Search for **BMH06203**. 
@@ -41,6 +42,8 @@ Version History
 &emsp;&emsp;- Perfect example(setMode_I2C);  
 &emsp;&emsp;- Modified function(setMode,setPWMParam，setIOParam);  
 &emsp;&emsp;- Changed the picture in examples;
+* **V1.0.3**  
+&emsp;&emsp;- Add applicable models: BMH06206/BMH63K203A; 
 
 License Information
 -------------------

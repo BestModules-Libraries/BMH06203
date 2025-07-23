@@ -2,7 +2,7 @@
 File:       BMH06203.h
 Author:     BEST MODULES CORP.
 Description:Define classes and required variables
-History：		V1.0.2	 -- 2024-08-20
+Version：   V1.0.3	 -- 2025-07-11
 **************************************************/
 #ifndef _BMH06203_H__
 #define _BMH06203_H__
